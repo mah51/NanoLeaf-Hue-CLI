@@ -1,0 +1,20 @@
+{
+  "name": "ultimate-room",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@q42philips/hue-color-converter": "^1.0.0",
+    "axios": "^0.21.1",
+    "chalk": "^4.1.0",
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "git+https://github.com/discordjs/Commando.git",
+    "dotenv": "^8.2.0"
+  }
+}
