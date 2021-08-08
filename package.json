@@ -13,6 +13,10 @@
     "@q42philips/hue-color-converter": "^1.0.0",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "node-hid": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
   }
 }
