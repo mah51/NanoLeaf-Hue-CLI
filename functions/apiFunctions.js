@@ -1,49 +1,70 @@
-const axios = require("axios");
-const converter = require("@q42philips/hue-color-converter");
+import converter from '@q42philips/hue-color-converter';
+import fetch from 'node-fetch';
 
-module.exports = {
-  getNanoLeafEffect: async (api) => {
-    const { data } = await axios.get(`${api}/effects/effectsList`);
+export const getNanoLeafEffect = async (api) => {
+    const res = await fetch(`${api}/effects/effectsList`);
+    const data = await res.json();
     return data;
-  },
-  setNanoLeafEffect: async (api, effect, brightness) => {
-    const data = await axios.put(`${api}/effects`, {
-      select: effect,
+};
+
+export const setNanoLeafEffect = async (api, effect, brightness) => {
+    const data = await fetch(`${api}/effects`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            select: effect,
+        }),
     });
-    const data1 = await axios.put(`${api}/state`, {
-      brightness: { value: brightness },
+    const data1 = await fetch(`${api}/state`, {
+        method: 'PUT',
+        body: JSON.stringify({ brightness: { value: brightness } }),
     });
     return data.status === 204 && data1.status === 204;
-  },
-  setHueLights: async (api, light1, light2) => {
-    await axios.put(api + "/" + "1" + "/state", {
-      on: true,
+};
+
+export const setHueLights = async (api, light1, light2) => {
+    await fetch(api + '/' + '1' + '/state', {
+        method: 'PUT',
+        body: JSON.stringify({ on: true }),
     });
-    await axios.put(api + "/" + "2" + "/state", {
-      on: true,
+    await fetch(api + '/' + '2' + '/state', {
+        method: 'PUT',
+        body: JSON.stringify({ on: true }),
     });
-    const { data } = await axios.put(api + "/2/state", {
-      xy: converter.calculateXY(light2[0], light2[1], light2[2], "LCT010"),
-      bri: light2[3],
+    const resp = await fetch(api + '/2/state', {
+        method: 'PUT',
+        body: JSON.stringify({
+            xy: converter.calculateXY(
+                light2[0],
+                light2[1],
+                light2[2],
+                'LCT010'
+            ),
+            bri: light2[3],
+        }),
     });
+
+    const data = await resp.json();
 
     if (!data[0] || !data[0].success || !data[1] || !data[1].success) {
-      return false;
+        return false;
     }
 
-    const hue1 = await axios.put(api + "/1/state", {
-      xy: converter.calculateXY(light1[0], light1[1], light1[2], "LCT010"),
-      bri: light1[3],
+    const res = await fetch(api + '/1/state', {
+        method: 'PUT',
+        body: JSON.stringify({
+            xy: converter.calculateXY(
+                light1[0],
+                light1[1],
+                light1[2],
+                'LCT010'
+            ),
+            bri: light1[3],
+        }),
     });
+    const hue1 = await res.json();
 
-    if (
-      !hue1.data[0] ||
-      !hue1.data[0].success ||
-      !hue1.data[1] ||
-      !hue1.data[1].success
-    ) {
-      return false;
+    if (!hue1[0] || !hue1[0].success || !hue1[1] || !hue1[1].success) {
+        return false;
     }
     return true;
-  },
 };

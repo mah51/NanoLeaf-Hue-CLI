@@ -1,13 +1,21 @@
-const axios = require("axios");
-module.exports = async (cache, setIsOn, nanoLeafAPI, hueAPI) => {
-  await axios.put(hueAPI + "/" + "1" + "/state", {
-    on: !cache,
-  });
-  await axios.put(hueAPI + "/" + "2" + "/state", {
-    on: !cache,
-  });
-  await axios.put(`${nanoLeafAPI}/state`, {
-    on: { value: !cache },
-  });
-  setIsOn(!cache);
+import fetch from 'node-fetch';
+
+export default async (cache, setIsOn, nanoLeafAPI, smolLeafAPI, hueAPI) => {
+    await fetch(hueAPI + '/' + '1' + '/state', {
+        method: 'PUT',
+        body: JSON.stringify({ on: !cache }),
+    });
+    await fetch(hueAPI + '/' + '2' + '/state', {
+        method: 'PUT',
+        body: JSON.stringify({ on: !cache }),
+    });
+    await fetch(`${nanoLeafAPI}/state`, {
+        method: 'PUT',
+        body: JSON.stringify({ on: { value: !cache } }),
+    });
+    await fetch(`${smolLeafAPI}/state`, {
+        method: 'PUT',
+        body: JSON.stringify({ on: { value: !cache } }),
+    });
+    setIsOn(!cache);
 };

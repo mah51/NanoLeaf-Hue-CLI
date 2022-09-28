@@ -1,22 +1,23 @@
 {
-  "name": "ultimate-room",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@q42philips/hue-color-converter": "^1.0.0",
-    "axios": "^0.21.1",
-    "chalk": "^4.1.0",
-    "dotenv": "^8.2.0",
-    "node-hid": "^2.1.1"
-  },
-  "devDependencies": {
-    "@types/axios": "^0.14.0"
-  }
+    "name": "ultimate-room",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@q42philips/hue-color-converter": "^1.0.0",
+        "chalk": "^5.0.1",
+        "dotenv": "^16.0.2",
+        "node-fetch": "^3.2.10",
+        "node-hid": "^2.1.1"
+    },
+    "devDependencies": {
+        "@types/axios": "^0.14.0"
+    }
 }

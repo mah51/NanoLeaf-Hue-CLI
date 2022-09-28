@@ -1,34 +1,35 @@
-const axios = require('axios');
+import fetch from 'node-fetch';
 
-module.exports = {
+export const flashNanoLeaf = async (api) => {
+    let data = JSON.stringify({ on: { value: false } });
+    fetch(api + '/state', { body: data, method: 'PUT' }).then(() => {
+        data = JSON.stringify({ on: { value: true } });
+        setTimeout(() => {
+            fetch(api + '/state', { body: data, method: 'PUT' }).catch(
+                console.error
+            );
+        }, 2000);
+    });
+};
 
-  flashNanoLeaf: async (api) => {
-    let data = JSON.stringify({"on":{"value":false}});
-    axios.put(api + '/state', data).then(() => {
-      data = JSON.stringify({"on":{"value":true}});
-      setTimeout(() => {
-        axios.put(api + '/state', data).catch(console.error);
-      }, 2000)
-    })
-  },
-
-  flashHue: async (api) => {
-    const lights = ['1', '2']
+export const flashHue = async (api) => {
+    const lights = ['1', '2'];
     lights.forEach((light) => {
-      axios.put(api + '/' + light + '/state', {
-        on: false
-      })
-        .then(() => {
-          setTimeout( async () => {
-            await axios.put(api  + '/' + light + '/state', {
-              on: true
-            })
-          }, 2000)
-
-        })
-    })
+        fetch(api + '/' + light + '/state', {
+            method: 'PUT',
+            body: JSON.stringify({
+                on: false,
+            }),
+        }).then(() => {
+            setTimeout(async () => {
+                await fetch(api + '/' + light + '/state', {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        on: true,
+                    }),
+                });
+            }, 2000);
+        });
+    });
     return true;
-
-
-  }
-}
+};
