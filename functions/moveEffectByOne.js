@@ -35,7 +35,11 @@ export default async function (
             );
             if (nano && hue && smolNano) {
                 console.log(
-                    chalk`{magenta.bold Effect changed to {red.bold ${newEffect.names[0]}} with keyboard}`
+                    `${chalk.magenta.bold(
+                        `Effect changed to ${chalk.red.bold(
+                            newEffect.names[0]
+                        )} with keyboard`
+                    )}`
                 );
             }
             setCurrentEffect(newEffect.names[0]);
